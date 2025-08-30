@@ -56,8 +56,6 @@ int main(void)
 	log_info(logger,puerto);
 	log_info(logger,ip);
 
-	
-	config_destroy(config);
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
 	leer_consola(logger);
@@ -70,6 +68,7 @@ int main(void)
 	conexion = crear_conexion(ip, puerto);
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
+	enviar_mensaje(valor,conexion);
 
 	// Armamos y enviamos el paquete
 	paquete(conexion);
@@ -82,7 +81,7 @@ int main(void)
 
 t_log* iniciar_logger(void)
 {
-	t_log* nuevo_logger = log_create("tp0.log","Programa",1,LOG_LEVEL_INFO);
+	t_log* nuevo_logger = log_create("tp0.log","Cliente",1,LOG_LEVEL_INFO);
 
 	return nuevo_logger;
 }
@@ -103,7 +102,7 @@ void leer_consola(t_log* logger)
 	{
 		leido = readline("> ");
 
-		 if (!strlen(leido)) {
+		 if (!strcmp(leido,"")) {
 			free(leido);
             abort();
         }
@@ -125,14 +124,22 @@ void paquete(int conexion)
 	t_paquete* paquete;
 
 	// Leemos y esta vez agregamos las lineas al paquete
+	paquete = crear_paquete();
+
+	agregar_a_paquete(paquete,leido,sizeof(leido));
+
+	enviar_paquete(paquete,conexion);
 
 
 	// ¡No te olvides de liberar las líneas y el paquete antes de regresar!
+	eliminar_paquete(paquete);
 	
 }
 
 void terminar_programa(int conexion, t_log* logger, t_config* config)
 {
-	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
-	  con las funciones de las commons y del TP mencionadas en el enunciado */
+	log_destroy(logger);
+	config_destroy(config);
+	liberar_conexion(conexion);
+
 }
