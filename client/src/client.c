@@ -56,7 +56,7 @@ int main(void)
 	log_info(logger,puerto);
 	log_info(logger,ip);
 
-	log_destroy(logger);
+	
 	config_destroy(config);
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
@@ -99,10 +99,20 @@ void leer_consola(t_log* logger)
 	char* leido;
 
 	// La primera te la dejo de yapa
-	leido = readline("> ");
+	while (1)
+	{
+		leido = readline("> ");
 
+		 if (!strlen(leido)) {
+			free(leido);
+            abort();
+        }
+        log_info(logger,leido);
+        free(leido);
+	}
+	
 	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
-
+	log_destroy(logger);
 
 	// ¡No te olvides de liberar las lineas antes de regresar!
 
