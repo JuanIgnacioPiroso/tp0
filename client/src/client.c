@@ -23,19 +23,41 @@ int main(void)
 
 	log_info(logger, mensaje);
 
-	log_destroy(logger);
+	
 
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
 	config = iniciar_config();
 
+	if (config == NULL)
+	{
+		log_error(logger,"Error: No se encontro el archivo de configuracion");
+		config_destroy(config);
+		log_destroy(logger);
+		abort();
+	}
+	valor = config_get_string_value(config, "CLAVE");
+	puerto = config_get_string_value(config, "PUERTO");
+	ip = config_get_string_value(config, "IP");
+
+	//PRUEBAS PROPIAS PARA VERIFICAR VALORES
+	printf("El valor es: %s\n", valor);
+	printf("El puerto es: %s\n", puerto);
+	printf("LA ip  es: %s\n", ip);
+
+
 	// Usando el config creado previamente, leemos los valores del config y los 
 	// dejamos en las variables 'ip', 'puerto' y 'valor'
 
 	// Loggeamos el valor de config
+	log_info(logger,config);
+	log_info(logger,valor);
+	log_info(logger,puerto);
+	log_info(logger,ip);
 
-
+	log_destroy(logger);
+	config_destroy(config);
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
 	leer_consola(logger);
@@ -67,7 +89,7 @@ t_log* iniciar_logger(void)
 
 t_config* iniciar_config(void)
 {
-	t_config* nuevo_config;
+	t_config* nuevo_config = config_create("cliente.config");
 
 	return nuevo_config;
 }
