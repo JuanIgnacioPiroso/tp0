@@ -16,8 +16,14 @@ int main(void)
 
 	logger = iniciar_logger();
 
+	char* mensaje = "Hola! Soy un log";
+
 	// Usando el logger creado previamente
 	// Escribi: "Hola! Soy un log"
+
+	log_info(logger, mensaje);
+
+	log_destroy(logger);
 
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
@@ -54,7 +60,7 @@ int main(void)
 
 t_log* iniciar_logger(void)
 {
-	t_log* nuevo_logger;
+	t_log* nuevo_logger = log_create("tp0.log","Programa",1,LOG_LEVEL_INFO);
 
 	return nuevo_logger;
 }
