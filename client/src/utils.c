@@ -40,7 +40,7 @@ int crear_conexion(char *ip, char* puerto)
 
 	freeaddrinfo(server_info);
 
-	return socket_cliente;
+	return fd_conexion;
 }
 
 void enviar_mensaje(char* mensaje, int socket_cliente)
