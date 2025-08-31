@@ -86,7 +86,7 @@ t_log* iniciar_logger(void)
 	return nuevo_logger;
 }
 
-t_config* iniciar_config(void)
+t_config* cdcdiniciar_config(void)
 {
 	t_config* nuevo_config = config_create("cliente.config");
 
@@ -109,11 +109,6 @@ void leer_consola(t_log* logger)
         log_info(logger,leido);
         free(leido);
 	}
-	
-	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
-	log_destroy(logger);
-
-	// ¡No te olvides de liberar las lineas antes de regresar!
 
 }
 
