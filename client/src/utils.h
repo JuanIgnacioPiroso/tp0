@@ -9,10 +9,6 @@
 #include<netdb.h>
 #include<string.h>
 #include<commons/log.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
-
 
 typedef enum
 {
