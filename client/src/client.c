@@ -58,7 +58,7 @@ int main(void)
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
-	//leer_consola(logger);
+	
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
@@ -69,6 +69,8 @@ int main(void)
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
 	enviar_mensaje(valor,conexion);
+
+	//leer_consola(logger);
 
 	// Armamos y enviamos el paquete
 	paquete(conexion);
