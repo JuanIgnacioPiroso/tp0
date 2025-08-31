@@ -119,13 +119,14 @@ void paquete(int conexion)
 	// Ahora toca lo divertido!
 	char* leido;
 	t_paquete* paquete;
+	t_log* logger;
 
 	// Leemos y esta vez agregamos las lineas al paquete
 	paquete = crear_paquete();
 
-	leer_consola(leido);
+	leido = leer_consola(logger);
 
-	agregar_a_paquete(paquete,leido,sizeof(leido));
+	agregar_a_paquete(paquete,leido,strlen(leido) + 1);
 
 	enviar_paquete(paquete,conexion);
 
