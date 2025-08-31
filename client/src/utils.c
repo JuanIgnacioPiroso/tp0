@@ -16,31 +16,42 @@ void* serializar_paquete(t_paquete* paquete, int bytes)
 	return magic;
 }
 
-int crear_conexion(char *ip, char* puerto)
-{
-	struct addrinfo hints;
-	struct addrinfo *server_info;
-
-	memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
-
-	// Ahora vamos a crear el socket.
-	int socket_cliente = 0;
-
-	socket_cliente = getaddrinfo(ip, puerto, &hints, &server_info);
-
-	int fd_conexion = socket(server_info->ai_family,
-							server_info->ai_socktype,
-							server_info->ai_protocol);
-
-	// Ahora que tenemos el socket, vamos a conectarlo
-
-	socket_cliente = connect(fd_conexion,server_info->ai_addr,server_info->ai_addrlen);
-
-	freeaddrinfo(server_info);
-
-	return fd_conexion;
+int crear_conexion(char *ip, char* puerto) {
+    struct addrinfo hints;
+    struct addrinfo *server_info;
+    
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    
+    // Verificar getaddrinfo
+    int status = getaddrinfo(ip, puerto, &hints, &server_info);
+    if (status != 0) {
+        printf("Error getaddrinfo: %s\n", gai_strerror(status));
+        return -1;
+    }
+    
+    // Crear socket
+    int fd_conexion = socket(server_info->ai_family,
+                            server_info->ai_socktype,
+                            server_info->ai_protocol);
+    if (fd_conexion < 0) {
+        printf("Error creando socket\n");
+        freeaddrinfo(server_info);
+        return -1;
+    }
+    
+    // Conectar - AQUÍ puede estar fallando
+    if (connect(fd_conexion, server_info->ai_addr, server_info->ai_addrlen) < 0) {
+        printf("Error conectando: %s\n", strerror(errno));
+        close(fd_conexion);
+        freeaddrinfo(server_info);
+        return -1;
+    }
+    
+    printf("¡Conectado exitosamente!\n");
+    freeaddrinfo(server_info);
+    return fd_conexion;
 }
 
 void enviar_mensaje(char* mensaje, int socket_cliente)
