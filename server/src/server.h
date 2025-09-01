@@ -7,6 +7,20 @@
 #include <commons/log.h>
 #include "utils.h"
 
-void iterator(char* value);
+/**
+ * @file server.h
+ * @brief Declaraciones de funciones específicas del servidor TCP
+ *
+ * Este header contiene las declaraciones de funciones específicas
+ * del servidor que procesa mensajes de clientes.
+ */
+
+// ========== DECLARACIONES DE FUNCIONES ==========
+
+/**
+ * @brief Función auxiliar para iterar sobre mensajes recibidos
+ * @param value String con el mensaje a procesar
+ */
+void iterator(char *value);
 
 #endif /* SERVER_H_ */
